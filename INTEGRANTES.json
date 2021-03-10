@@ -5,28 +5,28 @@
     "user-github": ""
   },
   "aluno-2": {
-    "nome": "",
-    "email-insper": "",
-    "user-github": ""
+    "nome": "Guilherme Rosada",
+    "email-insper": "guilhermer4@al.insper.edu.br",
+    "user-github": "Rosada-eng"
   },
   "aluno-3": {
-    "nome": "",
-    "email-insper": "",
-    "user-github": ""
+    "nome": "Lívia Sayuri Makuta",
+    "email-insper": "liviasm1@al.insper.edu.br",
+    "user-github": "Lihsayuri"
   },
   "aluno-4": {
-    "nome": "",
-    "email-insper": "",
-    "user-github": ""
-  },
-  "aluno-5": {
     "nome": "Jamesson Leandro Paiva Santos",
     "email-insper": "jamessonlps@al.insper.edu.br",
     "user-github": "jamessonlps"
   },
+  "aluno-5": {
+    "nome": "Davi Reis Vieira de Souza",
+    "email-insper": "davirvs@al.insper.edu.br",
+    "user-github": "DaviReisVieira"
+  },
   "aluno-6": {
-    "nome": "",
-    "email-insper": "",
-    "user-github": ""
+    "nome": "Henrique Martinelli Frezzatti",
+    "email-insper": "henriquemf@al.insper.edu.br",
+    "user-github": "henriquemf"
   }
 }
