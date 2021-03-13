@@ -42,7 +42,7 @@ architecture rtl of TopLevel is
 begin
   
   HEX0 <= "0010010";
-
+	
 end rtl;
 
 
