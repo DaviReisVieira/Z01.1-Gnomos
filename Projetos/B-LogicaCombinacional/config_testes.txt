@@ -12,7 +12,7 @@ nand.vhd
 Or16.vhd
 #Nor8Way.vhd
 #And16.vhd
-Not16.vhd
+#Not16.vhd
 #Or8Way.vhd
 #DMux2Way.vhd
 #DMux4Way.vhd
@@ -22,7 +22,7 @@ Not16.vhd
 #Mux16.vhd
 #Mux4Way16.vhd
 #Mux8Way.vhd
-#Mux8Way16.vhd
+Mux8Way16.vhd
 #BarrelShifter16.vhd
 #circuito.vhd
 #detectorDeMoedas.vhd
