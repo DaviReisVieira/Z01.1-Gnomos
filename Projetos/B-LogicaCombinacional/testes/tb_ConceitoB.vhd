@@ -53,19 +53,19 @@ begin
     -- Teste: 1
     sw <= "0000000000";
     wait until clk='1' ;
-    assert(hex0 = "0000001" and hex1 = "0000001" and hex0 = "0000001")  report "Falha em teste: 1" severity error;
+    assert(hex2 = "0000001" and hex1 = "0000001" and hex0 = "0000001")  report "Falha em teste: 1" severity error;
 
     sw <= "0000001111";
     wait until clk='1' ;
-    assert(hex3 = "0111000" and hex1 = "0000001" and hex0 = "0000001")  report "Falha em teste: 1" severity error;
+    assert(hex2 = "0111000" and hex1 = "0000001" and hex0 = "0000001")  report "Falha em teste: 1" severity error;
 
     sw <= "0011110000";
     wait until clk='1' ;
-    assert(hex3 = "0000001" and hex1 = "0111000" and hex0 = "0000001")  report "Falha em teste: 1" severity error;
+    assert(hex2 = "0000001" and hex1 = "0111000" and hex0 = "0000001")  report "Falha em teste: 1" severity error;
 
     sw <= "0111110000";
     wait until clk='1' ;
-    assert(hex3 = "0000001" and hex1 = "0111000" and hex0 = "1001111")  report "Falha em teste: 1" severity error;
+    assert(hex2 = "0000001" and hex1 = "0111000" and hex0 = "1001111")  report "Falha em teste: 1" severity error;
 
     test_runner_cleanup(runner); -- Simulacao acaba aqui
 
