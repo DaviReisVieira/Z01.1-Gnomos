@@ -52,15 +52,15 @@ begin
 
     sw <= "0000001010";
     wait until clk='1' ;
-    assert(hex3 = "0000001" and hex1 = "1001111" and hex0 = "00000001")  report "Falha em teste: 1" severity error;
+    assert(hex2 = "0000001" and hex1 = "1001111" and hex0 = "00000001")  report "Falha em teste: 1" severity error;
 
     sw <= "0000010110"; -- 22
     wait until clk='1' ;
-    assert(hex3 = "0010010" and hex1 = "0010010" and hex0 = "00000001")  report "Falha em teste: 1" severity error;
+    assert(hex2 = "0010010" and hex1 = "0010010" and hex0 = "00000001")  report "Falha em teste: 1" severity error;
 
     sw <= "0101001101"; -- 333
     wait until clk='1' ;
-    assert(hex3 = "0000110" and hex1 = "0000110" and hex0 = "0000110")  report "Falha em teste: 1" severity error;
+    assert(hex2 = "0000110" and hex1 = "0000110" and hex0 = "0000110")  report "Falha em teste: 1" severity error;
 
 
     test_runner_cleanup(runner); -- Simulacao acaba aqui
