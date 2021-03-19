@@ -56,7 +56,7 @@ begin
 
 
 seven1: sevenSeg port map(
-		bcd => bcdi2,  -- o sinal a do componente é conectado no sinal i1
+		bcd => bcdi0,  -- o sinal a do componente é conectado no sinal i1
 		leds => HEX2  -- o sinal a do componente é conectado no sinal i1
 	);
 	
@@ -66,7 +66,7 @@ seven2: sevenSeg port map(
 	);
 	
 seven3: sevenSeg port map(
-		bcd => bcdi0,  -- o sinal a do componente é conectado no sinal i1
+		bcd => bcdi2,  -- o sinal a do componente é conectado no sinal i1
 		leds => HEX0  -- o sinal a do componente é conectado no sinal i1
 	);
 
@@ -76,7 +76,9 @@ bintobcd: binarioToBcd generic map(N => 10) port map(
 		binary_in => SW,
 		bcd0 => bcdi0,
 		bcd1 => bcdi1,
-		bcd2 => bcdi2
+		bcd2 => bcdi2,
+		bcd3 => open,
+		bcd4 => open
 	);
 
 end rtl;
