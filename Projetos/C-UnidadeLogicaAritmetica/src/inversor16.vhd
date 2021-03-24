@@ -22,6 +22,6 @@ begin
   -- Implementação vem aqui!
 
   y <= (not a) when z = '1' else
-      a when z = '0';
+      a;
 
 end architecture;
