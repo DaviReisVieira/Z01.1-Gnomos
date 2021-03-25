@@ -98,20 +98,20 @@ architecture  rtl OF alu is
 begin
   -- Zerador X and Y
   u0 : zerador16 port map (zx,x,zxout);
-	u1 : zerador16 port map (zy,y,zyout);
+  u1 : zerador16 port map (zy,y,zyout);
   -- Inversor X and Y
-	u2 : inversor16 port map (nx,zxout,nxout);
-	u3 : inversor16 port map (ny,zyout,nyout);
+  u2 : inversor16 port map (nx,zxout,nxout);
+  u3 : inversor16 port map (ny,zyout,nyout);
   -- And X and Y
-	u4 : And16 port map (nxout,nyout,andout);
+  u4 : And16 port map (nxout,nyout,andout);
   -- Add X and Y
-	u5 : Add16 port map (nxout,nyout,adderout);
+  u5 : Add16 port map (nxout,nyout,adderout);
   -- Mux16
-	u6 : Mux16 port map (andout,adderout,f,muxout);
+  u6 : Mux16 port map (andout,adderout,f,muxout);
   -- Out Inversor
-	u7 : inversor16 port map (no,muxout,precomp);
+  u7 : inversor16 port map (no,muxout,precomp);
   -- Comparador Output
-	u8 : comparador16 port map (precomp,zr,ng);
+  u8 : comparador16 port map (precomp,zr,ng);
   -- Saída de dados da ALU
   saida <= precomp;
 
