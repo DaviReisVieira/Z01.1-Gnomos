@@ -33,10 +33,11 @@ entity ALU is
 			nx:    in STD_LOGIC;                     -- inverte a entrada x
 			zy:    in STD_LOGIC;                     -- zera a entrada y
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
-			f:     in STD_LOGIC;                     -- se 0 calcula x & y, senão x + y
+			f:     in STD_LOGIC_VECTOR(1 downto 0);  -- se 00 calcula x & y, 01 x + y, 10 x xor y
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
 			ng:    out STD_LOGIC;                    -- setado se saída é negativa
+			carry: out STD_LOGIC;                 -- sinal de estouro da soma (carry) 
 			saida: out STD_LOGIC_VECTOR(15 downto 0) -- saída de dados da ALU
 	);
 end entity;
@@ -64,7 +65,8 @@ architecture  rtl OF alu is
 		port(
 			a   :  in STD_LOGIC_VECTOR(15 downto 0);
 			b   :  in STD_LOGIC_VECTOR(15 downto 0);
-			q   : out STD_LOGIC_VECTOR(15 downto 0)
+			q   : out STD_LOGIC_VECTOR(15 downto 0);
+			cf  : out STD_LOGIC
 		);
 	end component;
 
@@ -84,16 +86,18 @@ architecture  rtl OF alu is
     );
 	end component;
 
-	component Mux16 is
+	component Mux4Way16 is
 		port (
 			a:   in  STD_LOGIC_VECTOR(15 downto 0);
 			b:   in  STD_LOGIC_VECTOR(15 downto 0);
-			sel: in  STD_LOGIC;
+			c:   in  STD_LOGIC_VECTOR(15 downto 0);
+			d:   in  STD_LOGIC_VECTOR(15 downto 0);
+			sel: in  STD_LOGIC_VECTOR(1 downto 0);
 			q:   out STD_LOGIC_VECTOR(15 downto 0)
 		);
 	end component;
 
-   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,muxout,precomp: std_logic_vector(15 downto 0);
+   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,xorout,muxout,precomp: std_logic_vector(15 downto 0);
 
 begin
   -- Zerador X and Y
@@ -104,10 +108,12 @@ begin
   u3 : inversor16 port map (ny,zyout,nyout);
   -- And X and Y
   u4 : And16 port map (nxout,nyout,andout);
-  -- Add X and Y
-  u5 : Add16 port map (nxout,nyout,adderout);
-  -- Mux16
-  u6 : Mux16 port map (andout,adderout,f,muxout);
+  -- Add X add Y
+  u5 : Add16 port map (nxout,nyout,adderout,carry);
+  -- Add X xor Y  
+  xorout <= nxout xor nyout;
+  -- Mux4Way16
+  u6 : Mux4Way16 port map (andout,adderout,xorout,"0000000000000000",f,muxout);
   -- Out Inversor
   u7 : inversor16 port map (no,muxout,precomp);
   -- Comparador Output
