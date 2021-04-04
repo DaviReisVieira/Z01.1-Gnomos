@@ -33,6 +33,7 @@ entity ALU is
 			nx:    in STD_LOGIC;                     -- inverte a entrada x
 			zy:    in STD_LOGIC;                     -- zera a entrada y
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
+			s:     in STD_LOGIC_VECTOR(1 downto 0);  -- shifter no/left/right/null
 			f:     in STD_LOGIC_VECTOR(1 downto 0);  -- se 00 calcula x & y, 01 x + y, 10 x xor y
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
@@ -97,7 +98,16 @@ architecture  rtl OF alu is
 		);
 	end component;
 
-   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,xorout,muxout,precomp: std_logic_vector(15 downto 0);
+	component Shifter16 is
+		port(
+			z:   in STD_LOGIC_VECTOR(1 downto 0);
+			as:  in  STD_LOGIC_VECTOR(15 downto 0);
+			y:   out STD_LOGIC_VECTOR(15 downto 0)
+		);
+
+	end component;
+
+   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,xorout,shifterout,muxout,precomp: std_logic_vector(15 downto 0);
 
 begin
   -- Zerador X and Y
@@ -112,8 +122,10 @@ begin
   u5 : Add16 port map (nxout,nyout,adderout,carry);
   -- Add X xor Y  
   xorout <= nxout xor nyout;
+  -- Shifter X
+  u9 : Shifter16 port map (s,nxout,shifterout);
   -- Mux4Way16
-  u6 : Mux4Way16 port map (andout,adderout,xorout,"0000000000000000",f,muxout);
+  u6 : Mux4Way16 port map (andout,adderout,xorout,shifterout,f,muxout);
   -- Out Inversor
   u7 : inversor16 port map (no,muxout,precomp);
   -- Comparador Output

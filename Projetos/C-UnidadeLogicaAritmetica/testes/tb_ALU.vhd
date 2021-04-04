@@ -22,6 +22,7 @@ component ALU is
 			nx:    in STD_LOGIC;                     -- inverte a entrada x
 			zy:    in STD_LOGIC;                     -- zera a entrada y
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
+			s:     in STD_LOGIC_VECTOR(1 downto 0);  -- shifter no/left/right/null
       f:     in STD_LOGIC_VECTOR(1 downto 0);  -- se 00 calcula x & y, 01 x + y, 10 x*2
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
@@ -32,7 +33,7 @@ component ALU is
 end component;
 
    signal  inX, inY : STD_LOGIC_VECTOR(15 downto 0);
-   signal  inF: STD_LOGIC_VECTOR(1 downto 0);
+   signal  inS, inF : STD_LOGIC_VECTOR(1 downto 0);
    signal  inZX, inNX, inZY, inNY, inNO, outZR, outNG, outCarry : STD_LOGIC;
    signal  outSaida : STD_LOGIC_VECTOR(15 downto 0);
 
@@ -45,6 +46,7 @@ begin
     nx => inNx,
     zy => inZy,
     ny => inNy,
+    s  => inS,
     f  => inF,
     no => inNo,
     zr => outZr,
@@ -194,11 +196,29 @@ begin
       wait for 200 ps;
       assert(outCarry = '1' and outZR = '0' and outNG = '1' and outSaida= "1111111111111110")  report "Falha em teste: 23" severity error;
 
-       -- Teste: 23 - Testa X + Y c/carry
+       -- Teste: 24 - Testa X + Y c/carry
        inX <= "0000000000000000"; inY <= "1111111111111111";
        inZX <= '0'; inNX <= '0'; inZY <= '0'; inNY <= '0'; inF <= "01"; inNO <= '0';
        wait for 200 ps;
        assert(outCarry = '0' and outZR = '0' and outNG = '1' and outSaida= "1111111111111111")  report "Falha em teste: 24" severity error;
+
+       -- Teste: 25 - Testa X Shiter Nenhum
+       inX <= "0100111100101111"; inY <= "0100111100101111";
+       inZX <= '0'; inNX <= '0'; inZY <= '0'; inNY <= '0'; inF <= "11"; inNO <= '0'; inS <= "00";
+       wait for 200 ps;
+       assert(outCarry = '0' and outZR = '0' and outNG = '0' and outSaida= "0100111100101111")  report "Falha em teste: 25" severity error;
+
+       -- Teste: 26 - Testa X Shiter Left
+       inX <= "0010111100101111"; inY <= "0010111100101111";
+       inZX <= '0'; inNX <= '0'; inZY <= '0'; inNY <= '0'; inF <= "11"; inNO <= '0'; inS <= "01";
+       wait for 200 ps;
+       assert(outCarry = '0' and outZR = '0' and outNG = '0' and outSaida= "0101111001011110")  report "Falha em teste: 26" severity error;
+       
+       -- Teste: 27 - Testa X Shiter Right
+       inX <= "0010111100101111"; inY <= "0010111100101111";
+       inZX <= '0'; inNX <= '0'; inZY <= '0'; inNY <= '0'; inF <= "11"; inNO <= '0'; inS <= "10";
+       wait for 200 ps;
+       assert(outCarry = '0' and outZR = '0' and outNG = '0' and outSaida= "0001011110010111")  report "Falha em teste: 27" severity error;
 
     test_runner_cleanup(runner); -- Simulacao acaba aqui
 
