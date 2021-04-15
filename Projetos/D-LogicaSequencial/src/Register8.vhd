@@ -25,7 +25,55 @@ architecture arch of Register8 is
 		);
 	end component;
 
-begin
 
+begin
+	
+	u0 : BinaryDigit port map (
+	clock => clock,
+	input => input(0),
+	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
+	output => output(0));
+
+	u1 : BinaryDigit port map (
+	clock => clock,
+	input => input(1),
+	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
+	output => output(1));
+
+	u2 : BinaryDigit port map (
+	clock => clock,
+	input => input(2),
+	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
+	output => output(2));
+	
+	u3 : BinaryDigit port map (
+	clock => clock,
+	input => input(3),
+	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
+	output => output(3));
+	
+	u4 : BinaryDigit port map (
+	clock => clock,
+	input => input(4),
+	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
+	output => output(4));
+	
+	u5 : BinaryDigit port map (
+	clock => clock,
+	input => input(5),
+	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
+	output => output(5));
+	
+	u6 : BinaryDigit port map (
+	clock => clock,
+	input => input(6),
+	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
+	output => output(6));
+	
+	u7 : BinaryDigit port map (
+	clock => clock,
+	input => input(7),
+	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
+	output => output(7));
 
 end architecture;
