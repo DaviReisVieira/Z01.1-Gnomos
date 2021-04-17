@@ -1,3 +1,4 @@
+
 -- Elementos de Sistemas
 -- by Luciano Soares
 -- BinaryDigit.vhd
@@ -30,25 +31,32 @@ architecture arch of BinaryDigit is
 		port (
 			a:   in  STD_LOGIC;
 			b:   in  STD_LOGIC;
-			sel: in  STD_LOGIC;
+			sel: in  STD_LOGIC; -- sel='0' : q<=a, sel='1' : q<=b
 			q:   out STD_LOGIC);
 	end component;
 
-	signal dffout,muxout: std_logic;
+	signal dffout,muxout: std_logic; -- "fios" que ligam a saída de um componente a entrada de outro
 
 begin
-	u0 : Mux2Way port map (
+
+	mux: Mux2Way 
+	port map 
+	(
 		a => dffout,
 		b => input,
 		sel => load,
-		q => muxout);
+		q => muxout
+	);
 
-	u1 : FlipFlopD port map (
+	ffp: FlipFlopD 
+	port map
+	(
 		clock => clock,
 		d => muxout,
 		clear => '0',
 		preset => '0',
-		q => dffout);
+		q => dffout
+	);
 
 	output <= dffout;
 
