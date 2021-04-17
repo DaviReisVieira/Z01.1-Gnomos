@@ -74,6 +74,7 @@ begin
 	clock => clock,
 	input => input(7),
 	load => load, -- load ='0', mantenho a saída. load = '1', nova entrada.
-	output => output(7));
+	output => output(7)
+	);
 
 end architecture;
