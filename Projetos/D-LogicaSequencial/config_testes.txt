@@ -9,14 +9,14 @@
 #Register32.vhd
 #Register64.vhd
 #Ram8.vhd
-Ram64.vhd
+#Ram64.vhd
 #Ram512.vhd
 #Ram4K.vhd
 
 ########
 # Rubrica A
 #
-FlipFlopT.vhd
+#FlipFlopT.vhd
 #FlipFlopJK.vhd
-#CounterDown.vhd
+CounterDown.vhd
  
