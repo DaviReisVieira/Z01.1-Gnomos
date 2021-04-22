@@ -16,7 +16,7 @@ end entity;
 
 architecture arch of FlipFlopJK is
 
-  signal state: std_logic;
+  signal state: std_logic:= '0';
   signal input: std_logic_vector(1 downto 0);
 
 begin
