@@ -33,9 +33,21 @@ begin
   begin
     test_runner_setup(runner, runner_cfg);
 
-    -- IMPLEMENTE AQUI!
+    -- Teste 0
     wait until clk'event and clk='0';
-		assert(Q = "111")  report "Precisa fazer os testes" severity error;
+		assert(q = "111")  report "Teste 0" severity error;
+
+    -- Teste 1
+    wait until clk'event and clk='0';
+		assert(q = "110")  report "Teste 1" severity error;
+
+    -- Teste 2
+    wait until clk'event and clk='0';
+		assert(q = "101")  report "Teste 2" severity error;
+
+    -- Teste 2
+    wait until clk'event and clk='0';
+		assert(q = "100")  report "Teste 3" severity error;
 
 
     -- finish
