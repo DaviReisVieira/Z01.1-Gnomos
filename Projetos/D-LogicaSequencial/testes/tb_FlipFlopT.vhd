@@ -35,8 +35,26 @@ begin
   begin
     test_runner_setup(runner, runner_cfg);
 
-    -- IMPLEMENTE AQUI!
+    -- Teste: 0
+		t <= '0';
     wait until clk'event and clk='0';
+		assert(q = '0' and notq = '1')  report "Falha em teste: Memorizacao 1" severity error;
+
+    -- Teste: 1
+		t <= '1';
+    wait until clk'event and clk='0';
+		assert(q = '1' and notq = '0')  report "Falha em teste: Inversao 1" severity error;
+
+    -- Teste: 2
+		t <= '1';
+    wait until clk'event and clk='0';
+		assert(q = '0' and notq = '1')  report "Falha em teste: Inversao 2" severity error;
+
+    -- Teste: 3
+		t <= '0';
+    wait until clk'event and clk='0';
+		assert(q = '0' and notq = '1')  report "Falha em teste: Memorizacao 2" severity error;
+
 
     -- finish
     wait until clk'event and clk='0';
