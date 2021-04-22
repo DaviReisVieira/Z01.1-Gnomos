@@ -33,7 +33,7 @@ begin
         when "01" =>
           state <= '0';
         when others => 
-          state <= '0';
+          null;
       end case;
     end if;
   end process;
