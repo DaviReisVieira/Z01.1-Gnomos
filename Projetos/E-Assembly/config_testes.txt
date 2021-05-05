@@ -32,7 +32,7 @@ LCDquadrado.nasm 0 10000
 ## conceito B
 ###########################
 
-#isEven.nasm 2 1000
+isEven.nasm 2 1000
 palindromo.nasm 2 1000
 #LCDnomeGrupo.nasm 0 10000
 
