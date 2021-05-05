@@ -20,4 +20,38 @@
 ;  RAM[14] = a
 ; 
 
+; Compara RAM[10] com RAM[14]
+leaw $10, %A
+movw (%A), %D
+leaw $14, %A
+subw (%A), %D, %D
+leaw $ERRO, %A
+jne %D
+nop
+
+; Compara RAM[11] com RAM[13]
+leaw $11, %A
+movw (%A), %D
+leaw $13, %A
+subw (%A), %D, %D
+leaw $ERRO, %A
+jne %D
+nop
+
+; Armazena 1 na RAM[0]
+leaw $1, %A
+movw %A, %D
+leaw $0, %A
+movw %D, (%A)
+
+leaw $FIM, %A
+jmp
+nop
+
+ERRO:
+; Armazena 0 na RAM[0]
+leaw $0, %A
+movw %A, (%A)
+
+FIM:
  
