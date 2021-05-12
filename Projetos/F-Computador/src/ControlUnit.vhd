@@ -46,10 +46,10 @@ begin
 
   loadPC <= '1' when instruction(17) = '1' and instruction(2 downto 0)= "001" and (ng = '0' and zr = '0') else --JG, > 0
             '1' when instruction(17) = '1' and instruction(2 downto 0) = "010" and (ng = '0' and zr = '1') else -- JE, =0
-            '1' when instruction(17) = '1' and instruction(2 downto 0) = "011" and (ng = '0' and zr = '1') else --JGE, >=0
+            '1' when instruction(17) = '1' and instruction(2 downto 0) = "011" and (ng = '0'  or zr = '1') else --JGE, >=0
             '1' when instruction(17) = '1' and instruction(2 downto 0) = "100" and (ng = '1' and zr = '0') else -- JL, <0
             '1' when instruction(17) = '1' and instruction(2 downto 0) = "101" and (              zr = '0') else -- JNE, !=0 (pode ser neg ou não)
-            '1' when instruction(17) = '1' and instruction(2 downto 0) = "110" and (ng = '1' and zr = '1') else -- JLE, <=0
+            '1' when instruction(17) = '1' and instruction(2 downto 0) = "110" and (ng = '1' or zr = '1') else -- JLE, <=0
             '1' when instruction(17) = '1' and instruction(2 downto 0) = "111"  else
             '0';
 
