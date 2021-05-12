@@ -16,4 +16,6 @@ vcom -reportprogress 300 -work work ../src/Dispositivos/ROM/*.vhd
 vcom -reportprogress 300 -work work ../src/Dispositivos/Screen/FIFO/*.vhd
 vcom -reportprogress 300 -work work ../src/Dispositivos/Screen/*.vho
 
-vcom -reportprogress 300 -work work ../tests/Computador_tb.vhd
+vcom -reportprogress 300 -work work ../testes/Computador_tb.vhd
+
+
