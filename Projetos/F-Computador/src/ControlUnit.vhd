@@ -17,11 +17,12 @@ entity ControlUnit is
                                                                      -- ng (se negativo) da ALU
 		muxALUI_A                   : out STD_LOGIC;                     -- mux que seleciona entre
                                                                      -- instrução  e ALU para reg. A
-		muxAM                       : out STD_LOGIC;                     -- mux que seleciona entre
-                                                                     -- reg. A e Mem. RAM para ALU
+		muxAM                       : out STD_LOGIC;                     -- mux que seleciona entre reg. A e Mem. RAM para ALU
+
+    muxSD                       : out STD_LOGIC;
                                                                      -- A  e Mem. RAM para ALU
 		zx, nx, zy, ny, f, no       : out STD_LOGIC;                     -- sinais de controle da ALU
-		loadA, loadD, loadM, loadPC : out STD_LOGIC               -- sinais de load do reg. A,
+		loadA, loadD, loadS, loadM, loadPC : out STD_LOGIC               -- sinais de load do reg. A,
                                                                      -- reg. D, Mem. RAM e Program Counter
     );
 end entity;
@@ -32,10 +33,12 @@ begin
 
   loadD <= instruction(17) and instruction(4);
   loadM <= instruction(17) and instruction(5); --escrita na memória RAM, utilizamos onde A aponta (%A)
+  loadS <= instruction(17) and instruction(6); -- passamos a ter o loadS para o registrador S.
   loadA <= not(instruction(17)) or (instruction(17) and instruction(3)); -- registrador %A que pode executar tanto leaw quanto mov
 
   muxALUI_A <= not(instruction(17)); --verifica o bit 17 para ver se é 1 (leaw) ou 0 (mov)
   muxAM <= instruction(17) and instruction(13); --mux : r0, que pode ser 0 ou 1. 
+  muxSD <= instruction(17) and instruction(14); --passa a ser o r1
 
   zx <= instruction(17) and instruction(12); -- verifica o bit 12 que indica o zx e o bit 17 já que é do tipo C.
   nx <= instruction(17) and instruction(11); -- verifica o bit 11 que indica o nx. 
