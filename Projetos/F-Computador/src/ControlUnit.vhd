@@ -31,14 +31,14 @@ architecture arch of ControlUnit is
 
 begin
 
-  loadD <= instruction(17) and instruction(4);
+  loadD <= instruction(16) or (instruction(16) and instruction(4)); --- se bit 16 = 0, quero fazer leaw em A, se for 1, quero em D
   loadM <= instruction(17) and instruction(5); --escrita na memória RAM, utilizamos onde A aponta (%A)
   loadS <= instruction(17) and instruction(6); -- passamos a ter o loadS para o registrador S.
-  loadA <= not(instruction(17)) or (instruction(17) and instruction(3)); -- registrador %A que pode executar tanto leaw quanto mov
+  loadA <= not(instruction(16)) and (not(instruction(17)) or (instruction(17) and instruction(3))); -- registrador %A que pode executar tanto leaw quanto mov
 
   muxALUI_A <= not(instruction(17)); --verifica o bit 17 para ver se é 1 (leaw) ou 0 (mov)
   muxAM <= instruction(17) and instruction(13); --mux : r0, que pode ser 0 ou 1. 
-  muxSD <= instruction(17) and instruction(14); --passa a ser o r1
+  muxSD <= instruction(16) or (instruction(17) and instruction(14)); --passa a ser o r1
 
   zx <= instruction(17) and instruction(12); -- verifica o bit 12 que indica o zx e o bit 17 já que é do tipo C.
   nx <= instruction(17) and instruction(11); -- verifica o bit 11 que indica o nx. 

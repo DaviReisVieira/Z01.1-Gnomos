@@ -71,8 +71,9 @@ architecture arch of CPU is
       zr,ng                       : in STD_LOGIC;
       muxALUI_A                   : out STD_LOGIC;
       muxAM                       : out STD_LOGIC;
+      muxSD                       : out STD_LOGIC;
       zx, nx, zy, ny, f, no       : out STD_LOGIC;
-      loadA, loadD, loadM, loadPC : out STD_LOGIC
+      loadA, loadD, loadS, loadM, loadPC : out STD_LOGIC
       );
   end component;
 
@@ -109,7 +110,8 @@ begin
     zr => c_zr,
     ng => c_ng,
     muxALUI_A => c_muxALUI_A,
-    muxAM => c_muxAM,
+    muxAM => c_muxAM,   
+    muxSD => c_muxSD,    
     zx => c_zx,
     nx => c_nx,
     zy => c_zy,
@@ -118,6 +120,7 @@ begin
     no => c_no,
     loadA => c_loadA,
     loadD => c_loadD,
+    loadS => c_loadS,
     loadM => writeM,
     loadPC => c_loadPC
     );
