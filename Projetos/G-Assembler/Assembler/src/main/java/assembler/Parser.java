@@ -88,8 +88,20 @@ public class Parser {
      * @return o tipo da instrução.
      */
     public CommandType commandType(String command) {
-        /* TODO: implementar */
-    	return null;
+        String[] commands = command.split("\\s"); /* faz o Split da String a cada espaço */
+        if (commands[0].equals("leaw")) {
+            return CommandType.A_COMMAND;
+        }
+        else if (commands[0].equals("movw")   || commands[0].equals("addw")  || commands[0].equals("subw") || commands[0].equals("rsubw")
+                || commands[0].equals("incw") || commands[0].equals("decw")  || commands[0].equals("notw") || commands[0].equals("negw")
+                || commands[0].equals("andw") || commands[0].equals("orw")   || commands[0].equals("jmp")  || commands[0].equals("je")
+                || commands[0].equals("jne")  || commands[0].equals("jg")    || commands[0].equals("jge")  || commands[0].equals("jle")
+                || commands[0].equals("nop")) {
+            return CommandType.C_COMMAND;
+        }
+        else {
+            return CommandType.L_COMMAND;
+        }
     }
 
     /**
@@ -99,8 +111,14 @@ public class Parser {
      * @return somente o símbolo ou o valor número da instrução.
      */
     public String symbol(String command) {
-        /* TODO: implementar */
-    	return null;
+        String[] commands = command.replaceAll(",+", " ").replaceAll("\\$+", "").split("\\s");
+
+        if (commandType(command) == CommandType.A_COMMAND) {
+            return commands[1];
+        }
+        else {
+            return null;
+        }
     }
 
     /**
@@ -110,8 +128,14 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-        /* TODO: implementar */
-    	return null;
+        if (commandType(command) == CommandType.L_COMMAND) {
+            return command.replaceAll(":", "");
+        }
+
+        else {
+            return null;
+        }
+
     }
 
     /**
@@ -121,9 +145,10 @@ public class Parser {
      * @return um vetor de string contento os tokens da instrução (as partes do comando).
      */
     public String[] instruction(String command) {
-        /* TODO: implementar */
-    	return null;
-    }
+        String[] commands = command.replaceAll(",", " ").split("\\s");
 
+        return commands;
+
+    }
 
 }
