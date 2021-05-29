@@ -58,8 +58,14 @@ public class Assemble {
                 /* TODO: implementar */
                 // deve verificar se tal label já existe na tabela,
                 // se não, deve inserir. Caso contrário, ignorar.
+                if (!table.contains(label)){
+                    table.addEntry(label, romAddress);
+                    System.out.println("Adicionando o novo label: " + label+" para a tabela de labels");
+                }
+            } else {
+                System.out.println("Label já existente na tabela");
+                romAddress++;
             }
-            romAddress++;
         }
         parser.close();
 
@@ -78,8 +84,13 @@ public class Assemble {
                     // deve verificar se tal símbolo já existe na tabela,
                     // se não, deve inserir associando um endereço de
                     // memória RAM a ele.
+                    if (!table.contains(symbol)){
+                        table.addEntry(symbol,ramAddress);
+                        System.out.println("Adicionando o endereço "+ symbol+" de RAM na tabela");
+                    }
                 }
-            }
+            } ramAddress++;
+              System.out.println("Endereço de RAM já existente");
         }
         parser.close();
         return table;
@@ -96,6 +107,7 @@ public class Assemble {
         Parser parser = new Parser(inputFile);  // abre o arquivo e aponta para o começo
         String instruction  = "";
 
+
         /**
          * Aqui devemos varrer o código nasm linha a linha
          * e gerar a string 'instruction' para cada linha
@@ -106,8 +118,34 @@ public class Assemble {
             switch (parser.commandType(parser.command())){
                 /* TODO: implementar */
                 case C_COMMAND:
+                    System.out.println("Instrução do tipo C");
+                    String[] instructionSet = parser.instruction(parser.command());
+                    System.out.println("Gerando o vetor de String com o Parser");
+                    String jmp = Code.jump(instructionSet);
+                    System.out.println("Este é o jump: "+ jmp);
+                    String dest = Code.dest(instructionSet);
+                    System.out.println("O destino da instrução é: "+ dest);
+                    String comp = Code.comp(instructionSet);
+                    System.out.println("A operação realizada é: "+comp);
+                    instruction = "10" + comp + dest + jmp;
+                    System.out.println("A instrução final é " + instruction);
                 break;
             case A_COMMAND:
+                System.out.println("Instrução do tipo A");
+                String symbolDecimal = parser.symbol(parser.command());
+                try{
+                    System.out.println("Primeiro considerando o leaw feito com constantes");
+                    String symbolBinary = Code.toBinary(symbolDecimal);
+                    instruction = "00" + symbolBinary;
+                    System.out.println("Leaw feito com o número "+ symbolDecimal+ " que resultou na instrução: "+ instruction);
+                } catch (Exception e){
+                    System.out.println("Leaw feito com label");
+                    String TableAddress = table.getAddress(symbolDecimal).toString();
+                    instruction = "00" + Code.toBinary(TableAddress);
+                    System.out.println("Leaw feito com o label "+ symbolDecimal+ " que resultou na instrução: " + instruction);
+            }
+
+
                 break;
             default:
                 continue;
