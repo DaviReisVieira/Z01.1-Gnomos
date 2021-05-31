@@ -44,47 +44,47 @@ public class Code {
             } else if (jumps.contains(mnemnonic[0])) {
                 return "0000";
                 /** Trata os casos do movw: os regs que recebem instrução encontram-se a partir da 3 posição */
-            } else if (mnemnonic[0] == "movw") {
-                for (int i = 2; i <= mnemnonic.length; i++) {
-                    if (mnemnonic[i] == "%A") {
-                        opcode.replace('d','1');
-                    } else if (mnemnonic[i] == "%D") {
-                        opcode.replace('c', '1');
-                    } else if (mnemnonic[i] == "(%A)") {
-                        opcode.replace('b', '1');
+            } else if (mnemnonic[0].equals("movw")) {
+                for (int i = 2; i < mnemnonic.length; i++) {
+                    if (mnemnonic[i].equals("%A")) {
+                        opcode = opcode.replace('d','1');
+                    } else if (mnemnonic[i].equals("%D")) {
+                        opcode = opcode.replace('c', '1');
+                    } else if (mnemnonic[i].equals("(%A)")) {
+                        opcode = opcode.replace('b', '1');
                     }
                 }
                 // As letras não usadas são substituídas por 0
-                for (int i = 0; i == 3; i++) {
+                for (int i = 0; i <= 3; i++) {
                     if (opcode.charAt(i) == 'b') {
-                        opcode.replace('b', '0');
-                    } else if (opcode.charAt(i) == 'b') {
-                        opcode.replace('c', '0');
-                    } else if (opcode.charAt(i) == 'b') {
-                        opcode.replace('d', '0');
+                        opcode = opcode.replace('b', '0');
+                    } else if (opcode.charAt(i) == 'c') {
+                        opcode = opcode.replace('c', '0');
+                    } else if (opcode.charAt(i) == 'd') {
+                        opcode = opcode.replace('d', '0');
                     }
                 }
                 return opcode;
             }
             /** Trata as demais operações em que os regs a receberem valor estão a partir da 4 posição */
             else {
-                for (int i = 3; i <= mnemnonic.length; i++) {
-                    if (mnemnonic[i] == "%A") {
-                        opcode.replace('d','1');
-                    } else if (mnemnonic[i] == "%D") {
-                        opcode.replace('c', '1');
-                    } else if (mnemnonic[i] == "(%A)") {
-                        opcode.replace('b', '1');
+                for (int i = 3; i < mnemnonic.length; i++) {
+                    if (mnemnonic[i].equals("%A")) {
+                        opcode = opcode.replace('d','1');
+                    } else if (mnemnonic[i].equals("%D")) {
+                        opcode = opcode.replace('c', '1');
+                    } else if (mnemnonic[i].equals("(%A)")) {
+                        opcode = opcode.replace('b', '1');
                     }
                 }
                 // As letras não usadas são substituídas por 0
-                for (int i = 0; i == 3; i++) {
+                for (int i = 0; i <= 3; i++) {
                     if (opcode.charAt(i) == 'b') {
-                        opcode.replace('b', '0');
-                    } else if (opcode.charAt(i) == 'b') {
-                        opcode.replace('c', '0');
-                    } else if (opcode.charAt(i) == 'b') {
-                        opcode.replace('d', '0');
+                        opcode = opcode.replace('b', '0');
+                    } else if (opcode.charAt(i) == 'c') {
+                        opcode = opcode.replace('c', '0');
+                    } else if (opcode.charAt(i) == 'd') {
+                        opcode = opcode.replace('d', '0');
                     }
                 }
                 return opcode;
