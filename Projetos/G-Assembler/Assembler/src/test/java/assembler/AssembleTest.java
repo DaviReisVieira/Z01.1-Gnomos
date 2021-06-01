@@ -19,7 +19,7 @@ public class AssembleTest {
     public AssembleTest() {
         try {
             // Cria objeto assembler auxiliar
-            assembler = new Assemble(inFile, outFile, false );
+            assembler = new Assemble(inFile, outFile, true );
         } catch(Exception e) {
             e.printStackTrace();
         }
