@@ -20,6 +20,8 @@ public class Assemble {
     private PrintWriter outHACK = null;    // grava saida do código de máquina em Hack
     boolean debug;                         // flag que especifica se mensagens de debug são impressas
     private SymbolTable table;             // tabela de símbolos (variáveis e marcadores)
+    private Boolean nopExistente = false;
+    private Boolean nopEsperado = false;
 
     /*
      * inicializa assembler
@@ -149,6 +151,12 @@ public class Assemble {
                     if (this.debug){
                         System.out.println("A instrução final é " + instruction);
                     }
+                    if(jmp != "000"){
+                        nopEsperado = true;
+                        if (this.debug){
+                            System.out.println("Esperado um NOP na próxima linha.");
+                        }
+                    }
                 break;
             case A_COMMAND:
                 if (this.debug){
@@ -182,6 +190,15 @@ public class Assemble {
             }
             // Escreve no arquivo .hack a instrução
             if(outHACK!=null) {
+                if (nopEsperado) {
+                    if (instruction!="100000000000000000"){
+                        nopEsperado = true;
+                    } else {
+                        System.out.println("Você se esqueceu do NOP!");
+                        outHACK.println("100000000000000000");
+                        nopEsperado = false;
+                    }
+                }
                 outHACK.println(instruction);
             }
             instruction = null;
