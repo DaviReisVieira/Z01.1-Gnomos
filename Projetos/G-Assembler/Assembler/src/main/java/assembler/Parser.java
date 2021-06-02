@@ -33,6 +33,10 @@ public class Parser {
         L_COMMAND       // comandos de Label (símbolos)
     }
 
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
     /**
      * Abre o arquivo de entrada NASM e se prepara para analisá-lo.
      * @param file arquivo NASM que será feito o parser.
@@ -152,8 +156,7 @@ public class Parser {
         String[] commands = command.split("\\s"); /* faz o Split da String a cada espaço */
         if (commands[0].equals("leaw")) {
             return CommandType.A_COMMAND;
-        }
-        else if (commands[0].equals("movw")   || commands[0].equals("addw")  || commands[0].equals("subw") || commands[0].equals("rsubw")
+        } else if (commands[0].equals("movw")   || commands[0].equals("addw")  || commands[0].equals("subw") || commands[0].equals("rsubw")
                 || commands[0].equals("incw") || commands[0].equals("decw")  || commands[0].equals("notw") || commands[0].equals("negw")
                 || commands[0].equals("andw") || commands[0].equals("orw")   || commands[0].equals("jmp")  || commands[0].equals("je")
                 || commands[0].equals("jne")  || commands[0].equals("jg")    || commands[0].equals("jge")  || commands[0].equals("jle")

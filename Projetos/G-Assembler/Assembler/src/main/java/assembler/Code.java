@@ -52,6 +52,8 @@ public class Code {
                         opcode = opcode.replace('c', '1');
                     } else if (mnemnonic[i].equals("(%A)")) {
                         opcode = opcode.replace('b', '1');
+                    } else if (mnemnonic[i].equals("(%D)")) {
+                        opcode = "errorMovDPointer";
                     }
                 }
                 // As letras não usadas são substituídas por 0
