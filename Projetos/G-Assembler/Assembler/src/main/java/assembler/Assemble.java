@@ -10,6 +10,9 @@
 package assembler;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Faz a geração do código gerenciando os demais módulos
@@ -138,6 +141,10 @@ public class Assemble {
                         System.out.println("Este é o jump: "+ jmp);
                     }
                     String dest = Code.dest(instructionSet);
+                    if (dest=="errorMovDPointer"){
+                        System.out.println("\nVocê não pode carregar para o pointer D! Verifique a linha: "+ parser.getLineNumber()+ " de seu nasm! :(");
+                        return;
+                    }
                     if (this.debug){
                         System.out.println("O destino da instrução é: "+ dest);
                     }
@@ -155,6 +162,14 @@ public class Assemble {
                     System.out.println("Instrução do tipo A");
                 }
                 String symbolDecimal = parser.symbol(parser.command());
+
+                String newLine = (parser.command()).replaceAll("\\s+","");
+                List<String> commandList = new ArrayList<String>(Arrays.asList(newLine.split(",")));
+                if (!commandList.get(1).contains("%A")){
+                    System.out.println("\nVocê só pode fazer o carregamento efetivo no Reg.A! :( Verifique a linha "+ parser.getLineNumber()+" de seu nasm!");
+                    return;
+                }
+
                 try{
                     if (this.debug){
                         System.out.println("Primeiro considerando o leaw feito com constantes");
@@ -173,7 +188,7 @@ public class Assemble {
                     if (this.debug){
                         System.out.println("Leaw feito com o label "+ symbolDecimal+ " que resultou na instrução: " + instruction);
                     }
-            }
+                }
 
 
                 break;
@@ -186,6 +201,7 @@ public class Assemble {
             }
             instruction = null;
         }
+        System.out.println("Conversão Assembly (NASM) para Código de Máquina (HACK) finalizado.");
     }
 
     /**
