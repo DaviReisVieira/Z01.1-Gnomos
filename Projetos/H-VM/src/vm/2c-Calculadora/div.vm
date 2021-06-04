@@ -1,1 +1,41 @@
+// ---------------------------------  
+// Rafael Corsi @ insper . edu . br
+//              2018a
+// ---------------------------------
+//
+// Projeto      : Projeto I-VM
+// File         : 2c-Calculadora
+//
+// Descritivo   : 
+//  Escreva um código em VM que realize a seguinte
+//  operação :
+//    15/5
+//
+//  O resultado deve ser salvo em temp 1
+
 function div 2
+    //push constant 0
+    //pop local 1 // garantir que temp 1 começa com 0 
+
+    label LOOP
+    push constant 0
+    push argument 0
+    eq
+    if-goto end 
+
+    push argument 0 // a
+    push argument 1  // b
+    sub 
+    pop local 0 // aux0 = a - b
+
+
+    push constant 1
+    push local 1
+    add
+    pop temp 1
+
+    goto LOOP
+    
+    label end
+
+    return 

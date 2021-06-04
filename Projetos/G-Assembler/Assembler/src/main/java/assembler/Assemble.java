@@ -10,6 +10,9 @@
 package assembler;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Faz a geração do código gerenciando os demais módulos
@@ -58,8 +61,18 @@ public class Assemble {
                 /* TODO: implementar */
                 // deve verificar se tal label já existe na tabela,
                 // se não, deve inserir. Caso contrário, ignorar.
+                if (!table.contains(label)){
+                    table.addEntry(label, romAddress);
+                    if (this.debug){
+                        System.out.println("Adicionando o novo label: " + label+" para a tabela de labels");
+                    }
+                }
+            } else {
+                if (this.debug){
+                    System.out.println("Label já existente na tabela");
+                }
+                romAddress++;
             }
-            romAddress++;
         }
         parser.close();
 
@@ -78,7 +91,16 @@ public class Assemble {
                     // deve verificar se tal símbolo já existe na tabela,
                     // se não, deve inserir associando um endereço de
                     // memória RAM a ele.
+                    if (!table.contains(symbol)){
+                        table.addEntry(symbol,ramAddress);
+                        if (this.debug){
+                            System.out.println("Adicionando o endereço "+ symbol+" de RAM na tabela");
+                        }
+                    }
                 }
+            } ramAddress++;
+            if (this.debug){
+                System.out.println("Endereço de RAM já existente");
             }
         }
         parser.close();
@@ -96,6 +118,7 @@ public class Assemble {
         Parser parser = new Parser(inputFile);  // abre o arquivo e aponta para o começo
         String instruction  = "";
 
+
         /**
          * Aqui devemos varrer o código nasm linha a linha
          * e gerar a string 'instruction' para cada linha
@@ -106,8 +129,68 @@ public class Assemble {
             switch (parser.commandType(parser.command())){
                 /* TODO: implementar */
                 case C_COMMAND:
+                    if (this.debug){
+                        System.out.println("Instrução do tipo C");
+                    }
+                    String[] instructionSet = parser.instruction(parser.command());
+                    if (this.debug){
+                        System.out.println("Gerando o vetor de String com o Parser");
+                    }
+                    String jmp = Code.jump(instructionSet);
+                    if (this.debug){
+                        System.out.println("Este é o jump: "+ jmp);
+                    }
+                    String dest = Code.dest(instructionSet);
+                    if (dest=="errorMovDPointer"){
+                        System.out.println("\nVocê não pode carregar para o pointer D! Verifique a linha: "+ parser.getLineNumber()+ " de seu nasm! :(");
+                        return;
+                    }
+                    if (this.debug){
+                        System.out.println("O destino da instrução é: "+ dest);
+                    }
+                    String comp = Code.comp(instructionSet);
+                    if (this.debug){
+                        System.out.println("A operação realizada é: "+comp);
+                    }
+                    instruction = "10" + comp + dest + jmp;
+                    if (this.debug){
+                        System.out.println("A instrução final é " + instruction);
+                    }
                 break;
             case A_COMMAND:
+                if (this.debug){
+                    System.out.println("Instrução do tipo A");
+                }
+                String symbolDecimal = parser.symbol(parser.command());
+
+                String newLine = (parser.command()).replaceAll("\\s+","");
+                List<String> commandList = new ArrayList<String>(Arrays.asList(newLine.split(",")));
+                if (!commandList.get(1).contains("%A")){
+                    System.out.println("\nVocê só pode fazer o carregamento efetivo no Reg.A! :( Verifique a linha "+ parser.getLineNumber()+" de seu nasm!");
+                    return;
+                }
+
+                try{
+                    if (this.debug){
+                        System.out.println("Primeiro considerando o leaw feito com constantes");
+                    }
+                    String symbolBinary = Code.toBinary(symbolDecimal);
+                    instruction = "00" + symbolBinary;
+                    if (this.debug){
+                        System.out.println("Leaw feito com o número "+ symbolDecimal+ " que resultou na instrução: "+ instruction);
+                    }
+                } catch (Exception e){
+                    if (this.debug){
+                        System.out.println("Leaw feito com label");
+                    }
+                    String TableAddress = table.getAddress(symbolDecimal).toString();
+                    instruction = "00" + Code.toBinary(TableAddress);
+                    if (this.debug){
+                        System.out.println("Leaw feito com o label "+ symbolDecimal+ " que resultou na instrução: " + instruction);
+                    }
+                }
+
+
                 break;
             default:
                 continue;
@@ -118,6 +201,7 @@ public class Assemble {
             }
             instruction = null;
         }
+        System.out.println("Conversão Assembly (NASM) para Código de Máquina (HACK) finalizado.");
     }
 
     /**

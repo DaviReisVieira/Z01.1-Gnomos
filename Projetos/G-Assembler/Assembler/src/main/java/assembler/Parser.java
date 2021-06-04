@@ -5,10 +5,10 @@
 
 package assembler;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Encapsula o código de leitura. Carrega as instruções na linguagem assembly,
@@ -18,6 +18,8 @@ import java.io.IOException;
 public class Parser {
 
     private final BufferedReader fileReader;
+    private final BufferedReader fileReaderToNop;
+    private PrintWriter fileWriterToNop = null;
     public String inputFile;		        // arquivo de leitura
     public int lineNumber = 0;		     	// linha atual do arquivo (nao do codigo gerado)
     public String currentCommand = "";      // comando atual
@@ -31,14 +33,77 @@ public class Parser {
         L_COMMAND       // comandos de Label (símbolos)
     }
 
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
     /**
      * Abre o arquivo de entrada NASM e se prepara para analisá-lo.
      * @param file arquivo NASM que será feito o parser.
      */
-    public Parser(String file) throws FileNotFoundException {
+    public Parser(String file) throws IOException {
         this.inputFile = file;
         this.fileReader = new BufferedReader(new FileReader(file));
+        this.fileReaderToNop = new BufferedReader(new FileReader(file));
         this.lineNumber = 0;
+
+        writeNop();
+    }
+
+    public void writeNop() throws IOException {
+        List<String> jumps = new ArrayList<>();
+        jumps.add("jge");
+        jumps.add("jle");
+        jumps.add("jne");
+        jumps.add("je");
+        jumps.add("jg");
+        jumps.add("jl");
+        jumps.add("jmp");
+
+        String line;
+        Boolean jumpFlag = false;
+        Integer linha = 0;
+
+        List<String> newNasm = new ArrayList<>();
+        String whiteSpaceCount = "";
+
+        while ((line = fileReaderToNop.readLine()) != null) {
+            linha++;
+            String newLine = line.replaceAll("\\s+","");
+            List<String> myList = new ArrayList<String>(Arrays.asList(newLine.split(",")));
+            if (jumpFlag){
+                if (!myList.contains("nop")){
+                    System.out.println("\nVocê esqueceu um NOP! Mas não se preocupe amigx! Já adicionamos ele em seu " +
+                            "arquivo nasm na linha "+ linha +"! :)\n"+"Arquivo:"+inputFile);
+                    line = whiteSpaceCount + "nop"+"\n"+line;
+                }
+                jumpFlag = false;
+                whiteSpaceCount = "";
+            }
+            if (jumps.contains(myList.get(0))){
+                jumpFlag = true;
+                for(int i=0; i<line.length(); i++ ){
+                    if( line.charAt(i) == ' ' ) {
+                        whiteSpaceCount= whiteSpaceCount +" ";
+                    } else{
+                        break;
+                    }
+                }
+            }
+
+            newNasm.add(line);
+
+        }
+
+        fileReaderToNop.close();
+
+        fileWriterToNop = new PrintWriter(new FileWriter(inputFile));
+        for(String str: newNasm) {
+            fileWriterToNop.write(str + System.lineSeparator());
+        }
+        fileWriterToNop.close();
+
+
     }
 
     // fecha o arquivo de leitura
@@ -91,8 +156,7 @@ public class Parser {
         String[] commands = command.split("\\s"); /* faz o Split da String a cada espaço */
         if (commands[0].equals("leaw")) {
             return CommandType.A_COMMAND;
-        }
-        else if (commands[0].equals("movw")   || commands[0].equals("addw")  || commands[0].equals("subw") || commands[0].equals("rsubw")
+        } else if (commands[0].equals("movw")   || commands[0].equals("addw")  || commands[0].equals("subw") || commands[0].equals("rsubw")
                 || commands[0].equals("incw") || commands[0].equals("decw")  || commands[0].equals("notw") || commands[0].equals("negw")
                 || commands[0].equals("andw") || commands[0].equals("orw")   || commands[0].equals("jmp")  || commands[0].equals("je")
                 || commands[0].equals("jne")  || commands[0].equals("jg")    || commands[0].equals("jge")  || commands[0].equals("jle")
