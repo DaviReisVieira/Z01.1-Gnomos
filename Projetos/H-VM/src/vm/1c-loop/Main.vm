@@ -17,7 +17,23 @@
 
 function Main.main 0
 
+push constant 0 // carrego o 0 no temp 3 para ter certeza que começa com 0 
+pop temp 3
 
+label LOOP
+push temp 3 // pego o que está no temp 3 
+push constant 1 // contador e o que quero ao mesmo tempo
+add // e adiciono (0+1 no início)
+pop temp 3 // guardo em temp 3
+
+push constant 55 // pego o 55
+push temp 3 // pego o que está em temp 3
+eq // comparo
+if-goto end // se for igual, significa que rodou 55 vezes, então vai pro final
+
+goto LOOP // se não volta para o início
+
+label end
 
 // esse loop sempre deve existir!
 // caso contrario o computador vai
