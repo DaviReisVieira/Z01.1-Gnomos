@@ -15,39 +15,30 @@
 
 function pow 3
 
-label LOOP1 
-    push argument 1
-    pop local 2 
-    push constant 0
-    push local 2
-    eq
+push constant 1
+push local 1
+add
+pop local 1
 
-    push local 2
-    push constant 1
-    sub
-    pop local 2
+label LOOP
+push argument 1 // elevado (nesse caso o número de vezes que vou multiplicar o numero por ele mesmo
+push constant 0
+eq
+if-goto end
 
-    if-goto end
+push local 1 // começa com 1 multiplicando e depois vai ser 3, depois 9...
+push argument 0 // pega o 3
+call mult 2 // multiplica: primeiro 1 por 3, depois 3 por 3, depois 9 por 3
+pop local 1
 
-    label LOOP2
-    push argument 1
-    push constant 0
-    eq
-    if-goto LOOP1
+push argument 1 //vai subtraindo o outro argumento que é o elevado
+push constant 1
+sub 
+pop argument 1
 
-    push argument 0
-    push local 1
-    add
-    pop local 1
-
-    push argument 1
-    push constant 1
-    sub
-    pop argument 1
-    goto LOOP2
+goto LOOP
 
 label end
-    push local 1
-    return
+push local 1
 
-
+return 
