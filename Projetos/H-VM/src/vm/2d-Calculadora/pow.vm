@@ -1,1 +1,53 @@
+// ---------------------------------  
+// Rafael Corsi @ insper . edu . br
+//              2018a
+// ---------------------------------
+//
+// Projeto      : Projeto I-VM
+// File         : 2a-Calculadora
+//
+// Descritivo   : 
+//  Escreva um código em VM que realize a seguinte
+//  operação :
+//    3^3
+//
+//  O resultado deve ser salvo em temp 1
+
 function pow 3
+
+label LOOP1 
+    push argument 1
+    pop local 2 
+    push constant 0
+    push local 2
+    eq
+
+    push local 2
+    push constant 1
+    sub
+    pop local 2
+
+    if-goto end
+
+    label LOOP2
+    push argument 1
+    push constant 0
+    eq
+    if-goto LOOP1
+
+    push argument 0
+    push local 1
+    add
+    pop local 1
+
+    push argument 1
+    push constant 1
+    sub
+    pop argument 1
+    goto LOOP2
+
+label end
+    push local 1
+    return
+
+

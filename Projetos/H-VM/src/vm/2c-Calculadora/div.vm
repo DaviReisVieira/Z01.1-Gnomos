@@ -17,7 +17,7 @@ function div 2
     //push constant 0
     //pop local 1 // garantir que temp 1 começa com 0 
 
-    label LOOP
+label LOOP
     push constant 0
     push argument 0
     eq
@@ -26,16 +26,14 @@ function div 2
     push argument 0 // a
     push argument 1  // b
     sub 
-    pop local 0 // aux0 = a - b
+    pop argument 0 // aux0 = a - b
 
-
-    push constant 1
     push local 1
+    push constant 1
     add
-    pop temp 1
-
+    pop local 1
     goto LOOP
     
-    label end
-
+label end
+    push local 1
     return 
