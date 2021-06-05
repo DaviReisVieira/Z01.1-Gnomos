@@ -1,1 +1,44 @@
+// ---------------------------------  
+// Rafael Corsi @ insper . edu . br
+//              2018a
+// ---------------------------------
+//
+// Projeto      : Projeto I-VM
+// File         : 2a-Calculadora
+//
+// Descritivo   : 
+//  Escreva um código em VM que realize a seguinte
+//  operação :
+//    3^3
+//
+//  O resultado deve ser salvo em temp 1
+
 function pow 3
+
+push constant 1
+push local 1
+add
+pop local 1
+
+label LOOP
+push argument 1 // elevado (nesse caso o número de vezes que vou multiplicar o numero por ele mesmo
+push constant 0
+eq
+if-goto end
+
+push local 1 // começa com 1 multiplicando e depois vai ser 3, depois 9...
+push argument 0 // pega o 3
+call mult 2 // multiplica: primeiro 1 por 3, depois 3 por 3, depois 9 por 3
+pop local 1
+
+push argument 1 //vai subtraindo o outro argumento que é o elevado
+push constant 1
+sub 
+pop argument 1
+
+goto LOOP
+
+label end
+push local 1
+
+return 
